@@ -1,0 +1,5 @@
+next.config.js
+node_modules
+public
+build
+*.d.ts
