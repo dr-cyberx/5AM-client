@@ -2,6 +2,8 @@ node_modules
 .vscode
 public
 .next
+.prettierrc.js
 
 *.json
 *.config.js
+*.scss

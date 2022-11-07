@@ -1,0 +1,13 @@
+@import '../../../styles/variables.scss';
+
+.input {
+  border-radius: 0px;
+  box-shadow: none;
+
+  div {
+    border-radius: 0px !important;
+    fieldset {
+      outline: none;
+    }
+  }
+}

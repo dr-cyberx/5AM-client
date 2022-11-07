@@ -1,12 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 interface Data {
-	name: string;
+  name: string;
 }
 
 export default function handler(
-	req: NextApiRequest,
-	res: NextApiResponse<Data>
+  req: NextApiRequest,
+  res: NextApiResponse<Data>
 ): void {
-	return res.status(200).json({ name: 'John Doe' });
+  return res.status(200).json({ name: 'John Doe' });
 }
