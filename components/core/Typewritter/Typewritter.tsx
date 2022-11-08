@@ -19,6 +19,7 @@ const Typewritter: React.FunctionComponent<iTypewritter> = ({
           strings: [...optionArray],
           autoStart,
           loop,
+          delay: 50,
         }}
       />
     </>

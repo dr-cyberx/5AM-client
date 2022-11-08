@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import {
   createTheme,
   FormControl,
@@ -39,6 +39,7 @@ interface Iinput {
     | 'submit'
     | 'tel'
     | 'text';
+  style?: CSSProperties;
 }
 
 const Input: React.FunctionComponent<Iinput> = ({
@@ -47,6 +48,7 @@ const Input: React.FunctionComponent<Iinput> = ({
   onChange,
   type,
   inputSize,
+  style,
 }): JSX.Element => {
   const [values, setValues] = React.useState({
     showPassword: false,
@@ -73,6 +75,7 @@ const Input: React.FunctionComponent<Iinput> = ({
                 type={values.showPassword ? 'text' : 'password'}
                 value={value}
                 size={inputSize}
+                style={style}
                 className={styles.input}
                 onChange={onChange}
                 endAdornment={
@@ -97,6 +100,7 @@ const Input: React.FunctionComponent<Iinput> = ({
             size={inputSize}
             className={styles.input}
             variant="outlined"
+            style={style}
             value={value}
             onChange={onChange}
             type={type}

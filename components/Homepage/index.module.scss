@@ -1,6 +1,87 @@
 @import '../../styles/variables.scss';
+@import '../../styles/mixins.scss';
 
 .setLocationPage,
 .Homepage {
-  color: $color-secondary;
+  color: $text-primary;
+}
+
+.setLocationPage {
+  height: 100vh;
+  width: 100vw;
+  @include flex-style(space-between, center);
+  .container1 {
+    height: 100%;
+    flex: 1.1;
+    padding: 0;
+    margin: 0;
+    @include flex-style(center, center);
+    // border: 2px solid red;
+    .child1 {
+      width: 600px;
+      height: 500px;
+      margin-right: -50px;
+      margin-top: -50px;
+      @include flex-style(space-evenly, false);
+      flex-direction: column;
+      //   border: 2px solid red;
+
+      .logo_container {
+        @include flex-style(space-between, center);
+        .authContainer {
+          width: 200px;
+          @include flex-style(space-around, center);
+        }
+      }
+      .detectLocation_container {
+      }
+      .Typewriter_container {
+        div {
+          font-size: 2.5rem;
+          font-weight: 600;
+          padding-top: 10px;
+        }
+        .Tw_bottom_text {
+          @include text(24px, 400);
+          width: 100%;
+          margin-bottom: 10px;
+          opacity: 0.8;
+        }
+      }
+      .detect_location {
+        position: relative;
+        // @include flex-style(space-between, center);
+        .detect_location_input {
+        }
+        .detect_location_btn {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          right: 2%;
+        }
+      }
+
+      .bottom_container {
+        .title {
+          @include text(1rem, 500);
+          width: 100%;
+          opacity: 0.8;
+        }
+        .citiesList {
+          width: 83%;
+          .city {
+            @include text(1rem, 500);
+          }
+        }
+      }
+    }
+  }
+  .container2 {
+    @extend .container1;
+    flex: 0.9;
+    background-image: linear-gradient(to left, transparent, #ffffffe3),
+      url('https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,h_1340/Lunch1_vlksgq');
+    background-position: right;
+    background-size: cover;
+  }
 }

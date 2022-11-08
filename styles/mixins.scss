@@ -20,3 +20,13 @@
   max-width: $width;
   min-width: $width;
 }
+
+@mixin text($fontSize, $fontWeight) {
+  font-size: $fontSize;
+  font-weight: $fontWeight;
+  margin-top: 0;
+  margin-bottom: 0;
+  line-height: 40px;
+  letter-spacing: -0.3px;
+  color: $text-light;
+}
