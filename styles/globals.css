@@ -1,3 +1,7 @@
+:root {
+  --main-bg-color: pink;
+}
+
 html,
 body {
   padding: 0;

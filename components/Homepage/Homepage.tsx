@@ -1,12 +1,8 @@
 import React from 'react';
-import Layout from '../core/Layout/Layout';
+import styles from './index.module.scss';
 
 const Homepage: React.FunctionComponent = (): JSX.Element => {
-  return (
-    <Layout isNav>
-      <>Hello world</>
-    </Layout>
-  );
+  return <div className={styles.Homepage}>Homepage</div>;
 };
 
 export default Homepage;

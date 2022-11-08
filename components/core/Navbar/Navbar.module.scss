@@ -1,4 +1,55 @@
+@import '../../../styles/variables.scss';
+@import '../../../styles/mixins.scss';
+
 .navbar {
   width: 100vw;
-  height: 50px;
+  height: auto;
+  box-shadow: $nav-box-shadow;
+  .navItems {
+    @include same-all-width($global-screen-width);
+    margin: auto;
+    @include flex-style(space-between, false);
+
+    .logo_location_section {
+      @include restrict-text-select;
+      width: 30%;
+      cursor: pointer;
+      img {
+        pointer-events: none;
+      }
+    }
+    .nav_links {
+      width: 70%;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+
+      ul {
+        @include flex-style(space-around, center);
+        width: 100%;
+        margin: 0;
+        height: 100%;
+        color: $color-secondary;
+
+        li {
+          color: inherit;
+          list-style: none;
+          font-weight: 500;
+          font-size: $nav-link-font-size;
+          min-width: 110px;
+          cursor: pointer;
+          padding: 8px 15px;
+          @include flex-style(space-evenly, center);
+          @include restrict-text-select;
+          transition: all 0.1s ease-in-out;
+          &:hover {
+            color: $color-primary;
+          }
+          &:focus {
+            color: $color-primary;
+          }
+        }
+      }
+    }
+  }
 }
