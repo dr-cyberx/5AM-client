@@ -19,7 +19,7 @@
     // border: 2px solid red;
     .child1 {
       width: 600px;
-      height: 500px;
+      height: 550px;
       margin-right: -50px;
       margin-top: -50px;
       @include flex-style(space-evenly, false);

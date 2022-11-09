@@ -1,0 +1,11 @@
+@import '../../../styles/variables.scss';
+@import '../../../styles/mixins.scss';
+
+.global_loader {
+  position: absolute;
+  top: 0%;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(0, 0, 0, 0.466);
+  @include flex-style(center, center);
+}

@@ -1,10 +1,15 @@
-import React, { memo } from 'react';
+import React, { memo, useState } from 'react';
 import Image from 'next/image';
 import MyLocationIcon from '@mui/icons-material/MyLocation';
+import { useDispatch } from 'react-redux';
+import { hiderMagnifiedLoader, showMagnifiedLoader } from '@Redux-store/index';
+import Button from '@core/Button/Button';
+import Typewritter from '@core/Typewritter/Typewritter';
+import Input from '@core/Input/Input';
+import axios, { AxiosResponse } from 'axios';
+import useLocalStorage, { iUseLocalStorage } from '@hooks/useLocalstorage';
+import AmazeToast from '@core/Toast';
 import styles from './index.module.scss';
-import Button from '../core/Button/Button';
-import Typewritter from '../core/Typewritter/Typewritter';
-import Input from '../core/Input/Input';
 
 interface IauthBtns {
   label: string;
@@ -26,6 +31,53 @@ const authBtns: IauthBtns[] = [
 ];
 
 const SetLocationPage: React.FunctionComponent = (): JSX.Element => {
+  const dispatch = useDispatch();
+  const localStorage: iUseLocalStorage = useLocalStorage;
+  const [status, setStatus] = useState<string>('');
+  const [address, setAddress] = useState<any>('');
+
+  const getLocation = (): void => {
+    if (!navigator.geolocation) {
+      setStatus('Geolocation is not supported by your browser');
+    } else {
+      setStatus('Locating...');
+      dispatch(showMagnifiedLoader());
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          setStatus('');
+          axios
+            .get(
+              `${process.env.NEXT_PUBLIC_GET_LOCATION_URL}?key=${process.env.NEXT_PUBLIC_GET_LOCATION_API_KEY}&lat=${position.coords.latitude}&lon=${position.coords.longitude}&format=json`
+            )
+            .then((data: AxiosResponse<any, any>) => {
+              AmazeToast({
+                message: 'Location Fetched Successfully',
+                type: 'success',
+              });
+              localStorage.setItem('current_Address', data?.data);
+              localStorage.setItem(
+                'current_minified_Address',
+                data?.data?.display_name
+              );
+              const minifiedAddress: string = data?.data.display_name
+                .split(',')
+                .slice(0, 4)
+                .join(',');
+              setAddress(minifiedAddress);
+              dispatch(hiderMagnifiedLoader());
+            })
+            .catch((err: Error) => {
+              console.log('error', err);
+              return;
+            });
+        },
+        () => {
+          setStatus('Unable to retrieve your location');
+        }
+      );
+    }
+  };
+
   return (
     <div className={styles.setLocationPage}>
       <div className={styles.container1}>
@@ -69,12 +121,17 @@ const SetLocationPage: React.FunctionComponent = (): JSX.Element => {
           <div className={styles.detectLocation_container}>
             <div className={styles.detect_location}>
               <div className={styles.detect_location_input}>
-                <Input inputSize="medium" style={{ fontSize: '1.5rem' }} />
+                <Input
+                  value={address}
+                  inputSize="medium"
+                  style={{ fontSize: '1.5rem' }}
+                />
               </div>
               <div className={styles.detect_location_btn}>
                 <Button
                   label={'Detect Me'}
                   btnSize={'medium'}
+                  onClick={getLocation}
                   variant={'text'}
                   startIcon={<MyLocationIcon />}
                 />

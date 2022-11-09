@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import useLocalStorage, { iUseLocalStorage } from '../../hooks/useLocalstorage';
-import Layout from '../core/Layout/Layout';
+import useLocalStorage, { iUseLocalStorage } from '@hooks/useLocalstorage';
+import Layout from '@core/Layout/Layout';
 import Homepage from './Homepage';
 import SetLocationPage from './setLocationPage';
 
