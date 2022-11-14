@@ -5,9 +5,10 @@ import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import SupportIcon from '@mui/icons-material/Support';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import styles from './Navbar.module.scss';
 import { colors } from '../variable';
 import useClickOutside from '../../../hooks/useClickoutside';
+import { useDispatch, useSelector } from 'react-redux';
+import styles from './Navbar.module.scss';
 
 interface linkItem {
   title: string;
@@ -50,6 +51,7 @@ const Navbar: React.FunctionComponent<INavbar> = ({
   geoLocation,
 }): JSX.Element => {
   const [currentTab, setCurrentTab] = useState<number>(100);
+  const { currentGeoLocation } = useSelector((state: any) => state.rootState);
 
   const handleNavIndex = (index: number): void => {
     setCurrentTab(index);
@@ -68,7 +70,9 @@ const Navbar: React.FunctionComponent<INavbar> = ({
                 height={90}
               />
             </div>
-            <div className={styles.geoLocation_container}>{geoLocation}</div>
+            <div className={styles.geoLocation_container}>
+              {currentGeoLocation.substring(0, 30) + '...'}
+            </div>
           </div>
           <div className={styles.nav_links}>
             <ul>

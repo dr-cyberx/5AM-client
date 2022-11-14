@@ -2,7 +2,7 @@ import React, { memo, useState } from 'react';
 import Image from 'next/image';
 import MyLocationIcon from '@mui/icons-material/MyLocation';
 import { useDispatch } from 'react-redux';
-import { hiderMagnifiedLoader, showMagnifiedLoader } from '@Redux-store/index';
+import { toggleMagnifiedLoader, setGeoLocation } from '@Redux-store/index';
 import Button from '@core/Button/Button';
 import Typewritter from '@core/Typewritter/Typewritter';
 import Input from '@core/Input/Input';
@@ -10,10 +10,12 @@ import axios, { AxiosResponse } from 'axios';
 import useLocalStorage, { iUseLocalStorage } from '@hooks/useLocalstorage';
 import AmazeToast from '@core/Toast';
 import styles from './index.module.scss';
+import { Anchor, toggleMuiDrawer } from '@components/core/Drawer/Drawer';
 
 interface IauthBtns {
   label: string;
   variant: 'text' | 'contained' | 'outlined';
+  side: Anchor;
   style: { backgroundColor?: string };
 }
 
@@ -21,16 +23,24 @@ const authBtns: IauthBtns[] = [
   {
     label: 'LOGIN',
     variant: 'text',
+    side: 'left',
     style: {},
   },
   {
     label: 'SIGN UP',
     variant: 'contained',
+    side: 'right',
     style: { backgroundColor: 'black' },
   },
 ];
 
-const SetLocationPage: React.FunctionComponent = (): JSX.Element => {
+interface iSetLocationPage {
+  toggleIsLocationAvailable: (arg: boolean) => void;
+}
+
+const SetLocationPage: React.FunctionComponent<iSetLocationPage> = ({
+  toggleIsLocationAvailable,
+}): JSX.Element => {
   const dispatch = useDispatch();
   const localStorage: iUseLocalStorage = useLocalStorage;
   const [status, setStatus] = useState<string>('');
@@ -40,8 +50,7 @@ const SetLocationPage: React.FunctionComponent = (): JSX.Element => {
     if (!navigator.geolocation) {
       setStatus('Geolocation is not supported by your browser');
     } else {
-      setStatus('Locating...');
-      dispatch(showMagnifiedLoader());
+      dispatch(toggleMagnifiedLoader(true));
       navigator.geolocation.getCurrentPosition(
         position => {
           setStatus('');
@@ -53,21 +62,29 @@ const SetLocationPage: React.FunctionComponent = (): JSX.Element => {
               AmazeToast({
                 message: 'Location Fetched Successfully',
                 type: 'success',
+                position: 'bottom-left',
               });
               localStorage.setItem('current_Address', data?.data);
               localStorage.setItem(
                 'current_minified_Address',
                 data?.data?.display_name
               );
+              dispatch(setGeoLocation(data?.data?.display_name));
               const minifiedAddress: string = data?.data.display_name
                 .split(',')
                 .slice(0, 4)
                 .join(',');
               setAddress(minifiedAddress);
-              dispatch(hiderMagnifiedLoader());
+              dispatch(toggleMagnifiedLoader(false));
+              toggleIsLocationAvailable(true);
             })
-            .catch((err: Error) => {
-              console.log('error', err);
+            .catch(() => {
+              AmazeToast({
+                message: 'Something went wrong!',
+                type: 'error',
+              });
+              dispatch(toggleMagnifiedLoader(false));
+              toggleIsLocationAvailable(false);
               return;
             });
         },
@@ -98,6 +115,7 @@ const SetLocationPage: React.FunctionComponent = (): JSX.Element => {
                     btnSize={'medium'}
                     style={item.style}
                     variant={item.variant}
+                    onClick={() => toggleMuiDrawer(item.side, true, dispatch)}
                   />
                 );
               })}

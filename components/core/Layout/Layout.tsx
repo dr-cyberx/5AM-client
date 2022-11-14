@@ -5,6 +5,7 @@ import Navbar from '../Navbar/Navbar';
 import styles from './Layout.module.scss';
 import MagnifyLoader from '../loaders/MagnifyLoader';
 import { colors } from '../variable';
+import TemporaryDrawer from '../Drawer/Drawer';
 
 interface iLayout {
   children: React.ReactNode;
@@ -21,14 +22,15 @@ const Layout: React.FunctionComponent<iLayout> = ({
     <>
       <div className={styles.layout}>
         {isNav ? <Navbar /> : <></>} {children}
+        <TemporaryDrawer>
+          <h1>Hello world</h1>
+        </TemporaryDrawer>
         <ToastContainer />
-        {
-          <MagnifyLoader
-            visible={magnifiedLoader}
-            color={colors.primary}
-            glassColor="#ffffff6a"
-          />
-        }
+        <MagnifyLoader
+          visible={magnifiedLoader}
+          color={colors.primary}
+          glassColor="#ffffff6a"
+        />
       </div>
     </>
   );
