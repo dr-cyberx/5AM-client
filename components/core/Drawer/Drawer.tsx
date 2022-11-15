@@ -3,6 +3,7 @@ import MUIDrawer from '@mui/material/Drawer';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleDrawer } from '@Redux-store/index';
 import { AnyAction, Dispatch } from '@reduxjs/toolkit';
+import { Button } from '@mui/material';
 
 export type Anchor = 'top' | 'left' | 'bottom' | 'right';
 
@@ -26,9 +27,6 @@ const TemporaryDrawer = ({
     <div>
       {(['left', 'right', 'top', 'bottom'] as const).map(anchor => (
         <React.Fragment key={anchor}>
-          {/* <Button onClick={toggleMuiDrawer(anchor, true, dispatch)}>
-            {anchor}
-          </Button> */}
           <MUIDrawer
             anchor={anchor}
             open={Drawer[anchor]}

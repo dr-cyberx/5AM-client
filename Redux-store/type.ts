@@ -1,5 +1,10 @@
 import { PayloadAction, Slice } from '@reduxjs/toolkit';
 
+export enum DrawerChild {
+  'LOGIN',
+  'SIGNUP',
+}
+
 export type iDrawer = {
   top: boolean;
   bottom: boolean;
@@ -12,6 +17,7 @@ export type IinitialState = {
   magnifiedLoader: boolean;
   BasicModal: boolean;
   currentGeoLocation: string;
+  drawerAuth: DrawerChild;
 };
 
 export type drawerToggleActionType = {
@@ -33,6 +39,10 @@ export type iActions = {
     action: PayloadAction<drawerToggleActionType>
   ) => void;
   setGeoLocation: (state: IinitialState, action: PayloadAction<string>) => void;
+  toggleDrawerInnerContent: (
+    state: IinitialState,
+    action: PayloadAction<DrawerChild>
+  ) => void;
 };
 
 export type IRootStateSlice = Slice<IinitialState, iActions, 'rootState'>;

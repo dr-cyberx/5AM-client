@@ -1,9 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { reducers } from './reducers';
-import { IinitialState, IRootStateSlice } from './type';
+import { DrawerChild, IinitialState, IRootStateSlice } from './type';
 
 const initialState: IinitialState = {
   Drawer: { left: false, right: false, top: false, bottom: false },
+  drawerAuth: DrawerChild.SIGNUP,
   magnifiedLoader: false,
   BasicModal: false,
   currentGeoLocation: '',
@@ -20,6 +21,7 @@ export const {
   toggleMagnifiedLoader,
   toggleDrawer,
   setGeoLocation,
+  toggleDrawerInnerContent,
 } = RootStateSlice.actions;
 
 export default RootStateSlice.reducer;

@@ -1,0 +1,29 @@
+@import '../../styles/variables.scss';
+@import '../../styles/mixins.scss';
+
+$login-signup-drawer-padding: 30px;
+
+.signUp,
+.Login {
+  padding: $login-signup-drawer-padding;
+  padding-top: 15px;
+  position: relative;
+  min-width: 500px;
+  .close_drawer_icon {
+    position: absolute;
+  }
+}
+
+.signUp {
+  .close_drawer_icon {
+    left: 20px;
+    cursor: pointer;
+  }
+}
+
+.Login {
+  .close_drawer_icon {
+    right: 20px;
+    cursor: pointer;
+  }
+}

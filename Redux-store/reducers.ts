@@ -1,5 +1,10 @@
 import { PayloadAction } from '@reduxjs/toolkit';
-import { IinitialState, iActions, drawerToggleActionType } from './type';
+import {
+  IinitialState,
+  iActions,
+  drawerToggleActionType,
+  DrawerChild,
+} from './type';
 
 export const reducers: iActions = {
   toggleMagnifiedLoader: (
@@ -22,5 +27,11 @@ export const reducers: iActions = {
   },
   setGeoLocation(state: IinitialState, action: PayloadAction<string>) {
     state.currentGeoLocation = action.payload;
+  },
+  toggleDrawerInnerContent(
+    state: IinitialState,
+    action: PayloadAction<DrawerChild>
+  ) {
+    state.drawerAuth = action.payload;
   },
 };

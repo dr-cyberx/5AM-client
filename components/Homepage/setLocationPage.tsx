@@ -2,7 +2,11 @@ import React, { memo, useState } from 'react';
 import Image from 'next/image';
 import MyLocationIcon from '@mui/icons-material/MyLocation';
 import { useDispatch } from 'react-redux';
-import { toggleMagnifiedLoader, setGeoLocation } from '@Redux-store/index';
+import {
+  toggleMagnifiedLoader,
+  setGeoLocation,
+  toggleDrawerInnerContent,
+} from '@Redux-store/index';
 import Button from '@core/Button/Button';
 import Typewritter from '@core/Typewritter/Typewritter';
 import Input from '@core/Input/Input';
@@ -11,6 +15,7 @@ import useLocalStorage, { iUseLocalStorage } from '@hooks/useLocalstorage';
 import AmazeToast from '@core/Toast';
 import styles from './index.module.scss';
 import { Anchor, toggleMuiDrawer } from '@components/core/Drawer/Drawer';
+import { DrawerChild } from '@Redux-store/type';
 
 interface IauthBtns {
   label: string;
@@ -44,7 +49,7 @@ const SetLocationPage: React.FunctionComponent<iSetLocationPage> = ({
   const dispatch = useDispatch();
   const localStorage: iUseLocalStorage = useLocalStorage;
   const [status, setStatus] = useState<string>('');
-  const [address, setAddress] = useState<any>('');
+  const [address, setAddress] = useState<string>('');
 
   const getLocation = (): void => {
     if (!navigator.geolocation) {
@@ -95,6 +100,15 @@ const SetLocationPage: React.FunctionComponent<iSetLocationPage> = ({
     }
   };
 
+  const authButtonsAction = (item: IauthBtns): void => {
+    toggleMuiDrawer(item.side, true, dispatch);
+    if (item.label === 'LOGIN') {
+      dispatch(toggleDrawerInnerContent(DrawerChild.LOGIN));
+    } else if (item.label === 'SIGN UP') {
+      dispatch(toggleDrawerInnerContent(DrawerChild.SIGNUP));
+    }
+  };
+
   return (
     <div className={styles.setLocationPage}>
       <div className={styles.container1}>
@@ -115,7 +129,7 @@ const SetLocationPage: React.FunctionComponent<iSetLocationPage> = ({
                     btnSize={'medium'}
                     style={item.style}
                     variant={item.variant}
-                    onClick={() => toggleMuiDrawer(item.side, true, dispatch)}
+                    onClick={() => authButtonsAction(item)}
                   />
                 );
               })}
