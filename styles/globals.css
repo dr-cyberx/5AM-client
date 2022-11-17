@@ -1,7 +1,13 @@
 :root {
   --main-bg-color: pink;
 }
-
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  margin: 0;
+}
 html,
 body {
   padding: 0;

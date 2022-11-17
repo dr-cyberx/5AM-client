@@ -10,6 +10,7 @@ import {
   Theme,
   ThemeProvider,
 } from '@mui/material';
+import { useController } from 'react-hook-form';
 import { grey, orange } from '@mui/material/colors';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
@@ -26,8 +27,7 @@ const theme: Theme = createTheme({
 
 interface Iinput {
   label?: string;
-  value?: string;
-  onChange?: () => void;
+  name: string;
   inputSize?: 'medium' | 'small';
   type?:
     | 'email'
@@ -40,16 +40,31 @@ interface Iinput {
     | 'tel'
     | 'text';
   style?: CSSProperties;
+  rules: any;
+  control: any;
+  ref?: any;
+  isFocused?: boolean;
 }
 
 const Input: React.FunctionComponent<Iinput> = ({
   label,
-  value,
-  onChange,
+  name,
+  isFocused,
   type,
   inputSize,
+  rules,
+  control,
+  ref,
   style,
 }): JSX.Element => {
+  const {
+    field: { onChange, value },
+    fieldState,
+  } = useController({
+    name,
+    control,
+    rules,
+  });
   const [values, setValues] = React.useState({
     showPassword: false,
   });
@@ -75,9 +90,12 @@ const Input: React.FunctionComponent<Iinput> = ({
                 type={values.showPassword ? 'text' : 'password'}
                 value={value}
                 size={inputSize}
+                ref={ref}
                 style={style}
+                autoFocus={isFocused || false}
                 className={styles.input}
                 onChange={onChange}
+                name={name}
                 endAdornment={
                   <InputAdornment position="end">
                     <IconButton
@@ -98,11 +116,14 @@ const Input: React.FunctionComponent<Iinput> = ({
             id="outlined-basic"
             label={label}
             size={inputSize}
+            ref={ref}
             className={styles.input}
+            focused={isFocused || false}
             variant="outlined"
             style={style}
             value={value}
             onChange={onChange}
+            name={name}
             type={type}
           />
         )}

@@ -23,6 +23,7 @@ interface IBtn {
   startIcon?: React.ReactNode;
   endIcon?: React.ReactNode;
   btnSize?: 'small' | 'medium' | 'large';
+  type?: 'button' | 'submit' | 'reset';
 }
 
 const Btn: React.FunctionComponent<IBtn> = ({
@@ -35,6 +36,7 @@ const Btn: React.FunctionComponent<IBtn> = ({
   startIcon,
   endIcon,
   btnSize,
+  type,
 }): JSX.Element => {
   return (
     <>
@@ -51,6 +53,7 @@ const Btn: React.FunctionComponent<IBtn> = ({
           endIcon={endIcon}
           className={styles.btn}
           size={btnSize}
+          type={type}
         >
           {label}
         </Button>

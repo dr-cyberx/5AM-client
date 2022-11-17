@@ -9,21 +9,51 @@ $login-signup-drawer-padding: 30px;
   padding-top: 15px;
   position: relative;
   min-width: 500px;
+  .signUp_header,
+  .login_header {
+    padding: 10px;
+    @include flex-style(flex-start, center);
+  }
   .close_drawer_icon {
     position: absolute;
   }
-}
-
-.signUp {
-  .close_drawer_icon {
-    left: 20px;
-    cursor: pointer;
+  .formBody {
+    width: 80%;
+    margin-top: 50px;
+    .title {
+      margin-bottom: 5px;
+    }
+    .helperText {
+      margin-bottom: 30px;
+    }
+    .login_page_link_text {
+      color: $color-primary;
+      font-weight: 500;
+      transition: all 0.2s ease-in-out;
+      cursor: pointer;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+    .helperText1 {
+    }
+    .terms_and_condition_link_text1 {
+      @extend .login_page_link_text;
+      color: $color-dark;
+    }
+    .form {
+      @include flex-style(space-around, center);
+      flex-direction: column;
+      height: 150px;
+    }
   }
 }
 
+.signUp,
 .Login {
   .close_drawer_icon {
-    right: 20px;
+    left: 20px;
+    top: 10%;
     cursor: pointer;
   }
 }

@@ -7,11 +7,15 @@ const SignUp: React.FunctionComponent = (): JSX.Element => {
   return (
     <>
       <div className={styles.signUp}>
-        <span className={styles.close_drawer_icon}>
-          <CloseIcon />
-        </span>
-        <div className={styles.title}>
-          <Typography align="left">Sign Up</Typography>
+        <div className={styles.signUp_header}>
+          <span className={styles.close_drawer_icon}>
+            <CloseIcon />
+          </span>
+          <div className={styles.title}>
+            <Typography align="left" fontSize={25}>
+              Sign Up
+            </Typography>
+          </div>
         </div>
       </div>
     </>

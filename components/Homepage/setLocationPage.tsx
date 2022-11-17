@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react';
+import React, { memo, useState, useRef } from 'react';
 import Image from 'next/image';
 import MyLocationIcon from '@mui/icons-material/MyLocation';
 import { useDispatch } from 'react-redux';
@@ -16,6 +16,7 @@ import AmazeToast from '@core/Toast';
 import styles from './index.module.scss';
 import { Anchor, toggleMuiDrawer } from '@components/core/Drawer/Drawer';
 import { DrawerChild } from '@Redux-store/type';
+import { useForm } from 'react-hook-form';
 
 interface IauthBtns {
   label: string;
@@ -28,7 +29,7 @@ const authBtns: IauthBtns[] = [
   {
     label: 'LOGIN',
     variant: 'text',
-    side: 'left',
+    side: 'right',
     style: {},
   },
   {
@@ -50,6 +51,7 @@ const SetLocationPage: React.FunctionComponent<iSetLocationPage> = ({
   const localStorage: iUseLocalStorage = useLocalStorage;
   const [status, setStatus] = useState<string>('');
   const [address, setAddress] = useState<string>('');
+  const { control, setValue } = useForm();
 
   const getLocation = (): void => {
     if (!navigator.geolocation) {
@@ -80,6 +82,7 @@ const SetLocationPage: React.FunctionComponent<iSetLocationPage> = ({
                 .slice(0, 4)
                 .join(',');
               setAddress(minifiedAddress);
+              setValue('location', minifiedAddress);
               dispatch(toggleMagnifiedLoader(false));
               toggleIsLocationAvailable(true);
             })
@@ -154,7 +157,9 @@ const SetLocationPage: React.FunctionComponent<iSetLocationPage> = ({
             <div className={styles.detect_location}>
               <div className={styles.detect_location_input}>
                 <Input
-                  value={address}
+                  name="location"
+                  rules={{ required: true }}
+                  control={control}
                   inputSize="medium"
                   style={{ fontSize: '1.5rem' }}
                 />
