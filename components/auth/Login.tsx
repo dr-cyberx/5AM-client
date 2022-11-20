@@ -1,13 +1,31 @@
-import React, { useEffect, useLayoutEffect, useRef } from 'react';
+import React from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import styles from './auth.module.scss';
 import { useForm } from 'react-hook-form';
-import Input from '@components/core/Input/Input';
+import Input, { iInputSize } from '@components/core/Input/Input';
 import Button from '@components/core/Button/Button';
+import { toggleMuiDrawer } from '@components/core/Drawer/Drawer';
+import { useDispatch, useSelector } from 'react-redux';
+import { DrawerChild } from '@Redux-store/type';
+import { AnyAction, Dispatch } from '@reduxjs/toolkit';
+import { toggleDrawerInnerContent } from '@Redux-store/index';
+
+export const toogleAuthComponent = (
+  drawer: DrawerChild,
+  dispatcher: Dispatch<AnyAction>
+) => {
+  if (drawer === DrawerChild.LOGIN) {
+    return dispatcher(toggleDrawerInnerContent(DrawerChild.SIGNUP));
+  } else if (drawer === DrawerChild.SIGNUP) {
+    return dispatcher(toggleDrawerInnerContent(DrawerChild.LOGIN));
+  }
+};
 
 const Login: React.FunctionComponent = (): JSX.Element => {
+  const { drawerAuth } = useSelector((state: any) => state.rootState);
+  const dispatch: Dispatch<AnyAction> = useDispatch();
   const {
     control,
     handleSubmit,
@@ -22,7 +40,10 @@ const Login: React.FunctionComponent = (): JSX.Element => {
     <>
       <div className={styles.Login}>
         <div className={styles.login_header}>
-          <span className={styles.close_drawer_icon}>
+          <span
+            className={styles.close_drawer_icon}
+            onClick={() => toggleMuiDrawer(false, dispatch)}
+          >
             <CloseIcon fontSize="medium" />
           </span>
         </div>
@@ -39,16 +60,18 @@ const Login: React.FunctionComponent = (): JSX.Element => {
             className={styles.helperText}
           >
             or{' '}
-            <span className={styles.login_page_link_text}>
+            <span
+              className={styles.login_page_link_text}
+              onClick={() => toogleAuthComponent(drawerAuth, dispatch)}
+            >
               create a new account
             </span>
           </Typography>
           <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
             <Input
-              inputSize="medium"
+              inputSize={iInputSize.MEDIUM}
               label="Enter Phone Number"
               type="number"
-              isFocused
               control={control}
               name="login_phone_number"
               rules={{ required: true }}

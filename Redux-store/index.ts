@@ -3,10 +3,9 @@ import { reducers } from './reducers';
 import { DrawerChild, IinitialState, IRootStateSlice } from './type';
 
 const initialState: IinitialState = {
-  Drawer: { left: false, right: false, top: false, bottom: false },
+  SideDrawer: { isOpen: false },
   drawerAuth: DrawerChild.SIGNUP,
   magnifiedLoader: false,
-  BasicModal: false,
   currentGeoLocation: '',
 };
 
@@ -17,9 +16,8 @@ const RootStateSlice: IRootStateSlice = createSlice({
 });
 
 export const {
-  toggleBasicModal,
+  toggleSideDrawer,
   toggleMagnifiedLoader,
-  toggleDrawer,
   setGeoLocation,
   toggleDrawerInnerContent,
 } = RootStateSlice.actions;

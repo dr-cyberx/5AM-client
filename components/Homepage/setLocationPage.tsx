@@ -9,7 +9,7 @@ import {
 } from '@Redux-store/index';
 import Button from '@core/Button/Button';
 import Typewritter from '@core/Typewritter/Typewritter';
-import Input from '@core/Input/Input';
+import Input, { iInputSize } from '@core/Input/Input';
 import axios, { AxiosResponse } from 'axios';
 import useLocalStorage, { iUseLocalStorage } from '@hooks/useLocalstorage';
 import AmazeToast from '@core/Toast';
@@ -104,7 +104,7 @@ const SetLocationPage: React.FunctionComponent<iSetLocationPage> = ({
   };
 
   const authButtonsAction = (item: IauthBtns): void => {
-    toggleMuiDrawer(item.side, true, dispatch);
+    toggleMuiDrawer(true, dispatch);
     if (item.label === 'LOGIN') {
       dispatch(toggleDrawerInnerContent(DrawerChild.LOGIN));
     } else if (item.label === 'SIGN UP') {
@@ -160,7 +160,7 @@ const SetLocationPage: React.FunctionComponent<iSetLocationPage> = ({
                   name="location"
                   rules={{ required: true }}
                   control={control}
-                  inputSize="medium"
+                  inputSize={iInputSize.MEDIUM}
                   style={{ fontSize: '1.5rem' }}
                 />
               </div>

@@ -35,8 +35,6 @@ $login-signup-drawer-padding: 30px;
         text-decoration: underline;
       }
     }
-    .helperText1 {
-    }
     .terms_and_condition_link_text1 {
       @extend .login_page_link_text;
       color: $color-dark;
@@ -46,6 +44,9 @@ $login-signup-drawer-padding: 30px;
       flex-direction: column;
       height: 150px;
     }
+    .signUpForm {
+      height: 280px;
+    }
   }
 }
 
@@ -53,7 +54,13 @@ $login-signup-drawer-padding: 30px;
 .Login {
   .close_drawer_icon {
     left: 20px;
-    top: 10%;
+    top: 5%;
+    cursor: pointer;
+  }
+}
+.signUp {
+  .close_drawer_icon {
+    top: 4%;
     cursor: pointer;
   }
 }
