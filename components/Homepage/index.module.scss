@@ -79,7 +79,7 @@
   .container2 {
     @extend .container1;
     flex: 0.9;
-    background-image: linear-gradient(to left, transparent, #ffffffe3),
+    background-image: linear-gradient(to left, transparent, #ffffff),
       url('https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,h_1340/Lunch1_vlksgq');
     background-position: right;
     background-size: cover;

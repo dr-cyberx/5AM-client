@@ -8,23 +8,14 @@ import Input, { iInputSize } from '@components/core/Input/Input';
 import Button from '@components/core/Button/Button';
 import { toggleMuiDrawer } from '@components/core/Drawer/Drawer';
 import { useDispatch, useSelector } from 'react-redux';
-import { DrawerChild } from '@Redux-store/type';
+import { IinitialState } from '@Redux-store/type';
 import { AnyAction, Dispatch } from '@reduxjs/toolkit';
-import { toggleDrawerInnerContent } from '@Redux-store/index';
-
-export const toogleAuthComponent = (
-  drawer: DrawerChild,
-  dispatcher: Dispatch<AnyAction>
-) => {
-  if (drawer === DrawerChild.LOGIN) {
-    return dispatcher(toggleDrawerInnerContent(DrawerChild.SIGNUP));
-  } else if (drawer === DrawerChild.SIGNUP) {
-    return dispatcher(toggleDrawerInnerContent(DrawerChild.LOGIN));
-  }
-};
+import { toogleAuthComponent } from './authData';
 
 const Login: React.FunctionComponent = (): JSX.Element => {
-  const { drawerAuth } = useSelector((state: any) => state.rootState);
+  const { drawerAuth }: IinitialState = useSelector(
+    (state: any) => state.rootState
+  );
   const dispatch: Dispatch<AnyAction> = useDispatch();
   const {
     control,

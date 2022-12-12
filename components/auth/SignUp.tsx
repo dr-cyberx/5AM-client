@@ -8,12 +8,18 @@ import Input from '@components/core/Input/Input';
 import Button from '@components/core/Button/Button';
 import { toggleMuiDrawer } from '@components/core/Drawer/Drawer';
 import { useDispatch, useSelector } from 'react-redux';
-import { InputArgAssigner, signUpInputData } from './authData';
-import { toogleAuthComponent } from './Login';
+import {
+  InputArgAssigner,
+  signUpInputData,
+  toogleAuthComponent,
+} from './authData';
 import { AnyAction, Dispatch } from '@reduxjs/toolkit';
+import { IinitialState } from '@Redux-store/type';
 
 const SignUp: React.FunctionComponent = (): JSX.Element => {
-  const { drawerAuth } = useSelector((state: any) => state.rootState);
+  const { drawerAuth }: IinitialState = useSelector(
+    (state: any) => state.rootState
+  );
   const dispatch: Dispatch<AnyAction> = useDispatch();
   const {
     control,
@@ -73,7 +79,7 @@ const SignUp: React.FunctionComponent = (): JSX.Element => {
             <Button
               btnSize="large"
               type="submit"
-              label="Login"
+              label="SIGN UP"
               style={{ width: '100%' }}
               endIcon={<ArrowForwardIcon />}
             />

@@ -17,6 +17,7 @@ import styles from './index.module.scss';
 import { Anchor, toggleMuiDrawer } from '@components/core/Drawer/Drawer';
 import { DrawerChild } from '@Redux-store/type';
 import { useForm } from 'react-hook-form';
+import { getLocation } from './indexData';
 
 interface IauthBtns {
   label: string;
@@ -49,59 +50,20 @@ const SetLocationPage: React.FunctionComponent<iSetLocationPage> = ({
 }): JSX.Element => {
   const dispatch = useDispatch();
   const localStorage: iUseLocalStorage = useLocalStorage;
-  const [status, setStatus] = useState<string>('');
-  const [address, setAddress] = useState<string>('');
+  const [, setStatus] = useState<string>('');
+  const [, setAddress] = useState<string>('');
   const { control, setValue } = useForm();
 
-  const getLocation = (): void => {
-    if (!navigator.geolocation) {
-      setStatus('Geolocation is not supported by your browser');
-    } else {
-      dispatch(toggleMagnifiedLoader(true));
-      navigator.geolocation.getCurrentPosition(
-        position => {
-          setStatus('');
-          axios
-            .get(
-              `${process.env.NEXT_PUBLIC_GET_LOCATION_URL}?key=${process.env.NEXT_PUBLIC_GET_LOCATION_API_KEY}&lat=${position.coords.latitude}&lon=${position.coords.longitude}&format=json`
-            )
-            .then((data: AxiosResponse<any, any>) => {
-              AmazeToast({
-                message: 'Location Fetched Successfully',
-                type: 'success',
-                position: 'bottom-left',
-              });
-              localStorage.setItem('current_Address', data?.data);
-              localStorage.setItem(
-                'current_minified_Address',
-                data?.data?.display_name
-              );
-              dispatch(setGeoLocation(data?.data?.display_name));
-              const minifiedAddress: string = data?.data.display_name
-                .split(',')
-                .slice(0, 4)
-                .join(',');
-              setAddress(minifiedAddress);
-              setValue('location', minifiedAddress);
-              dispatch(toggleMagnifiedLoader(false));
-              toggleIsLocationAvailable(true);
-            })
-            .catch(() => {
-              AmazeToast({
-                message: 'Something went wrong!',
-                type: 'error',
-              });
-              dispatch(toggleMagnifiedLoader(false));
-              toggleIsLocationAvailable(false);
-              return;
-            });
-        },
-        () => {
-          setStatus('Unable to retrieve your location');
-        }
-      );
-    }
-  };
+  const handleDetectLocation = () =>
+    getLocation(
+      setStatus,
+      dispatch,
+      toggleMagnifiedLoader,
+      setAddress,
+      toggleIsLocationAvailable,
+      setValue,
+      localStorage
+    );
 
   const authButtonsAction = (item: IauthBtns): void => {
     toggleMuiDrawer(true, dispatch);
@@ -168,7 +130,7 @@ const SetLocationPage: React.FunctionComponent<iSetLocationPage> = ({
                 <Button
                   label={'Detect Me'}
                   btnSize={'medium'}
-                  onClick={getLocation}
+                  onClick={handleDetectLocation}
                   variant={'text'}
                   startIcon={<MyLocationIcon />}
                 />

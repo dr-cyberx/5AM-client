@@ -1,4 +1,18 @@
+import { toggleDrawerInnerContent } from '@Redux-store/index';
+import { DrawerChild } from '@Redux-store/type';
+import { AnyAction, Dispatch } from '@reduxjs/toolkit';
 import { Iinput, iInputSize } from '@components/core/Input/Input';
+
+export const toogleAuthComponent = (
+  drawer: DrawerChild,
+  dispatcher: Dispatch<AnyAction>
+) => {
+  if (drawer === DrawerChild.LOGIN) {
+    return dispatcher(toggleDrawerInnerContent(DrawerChild.SIGNUP));
+  } else if (drawer === DrawerChild.SIGNUP) {
+    return dispatcher(toggleDrawerInnerContent(DrawerChild.LOGIN));
+  }
+};
 
 export type commonKeyValType = iSignUpInputData;
 

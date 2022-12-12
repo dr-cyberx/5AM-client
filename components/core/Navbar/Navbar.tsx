@@ -6,9 +6,10 @@ import SupportIcon from '@mui/icons-material/Support';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { colors } from '../variable';
-import useClickOutside from '../../../hooks/useClickoutside';
-import { useDispatch, useSelector } from 'react-redux';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useSelector } from 'react-redux';
 import styles from './Navbar.module.scss';
+import Tooltip from '@mui/material/Tooltip';
 
 interface linkItem {
   title: string;
@@ -70,9 +71,11 @@ const Navbar: React.FunctionComponent<INavbar> = ({
                 height={90}
               />
             </div>
-            <div className={styles.geoLocation_container}>
-              {currentGeoLocation.substring(0, 30) + '...'}
-            </div>
+            <Tooltip title={currentGeoLocation}>
+              <div className={styles.geoLocation_container}>
+                {currentGeoLocation.substring(0, 30) + '...'}
+              </div>
+            </Tooltip>
           </div>
           <div className={styles.nav_links}>
             <ul>
@@ -89,6 +92,12 @@ const Navbar: React.FunctionComponent<INavbar> = ({
                   >
                     {item.icon ? item.icon : <></>}
                     <span>{item.title}</span>
+                    {index === currentTab ? (
+                      <motion.div
+                        className={styles['underline']}
+                        layoutId="underline"
+                      />
+                    ) : null}
                   </li>
                 );
               })}
