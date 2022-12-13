@@ -23,4 +23,10 @@ export const reducers: iActions = {
   ): void => {
     state.SideDrawer.isOpen = action.payload;
   },
+  toggleIsLocationAvailable: (
+    state: IinitialState,
+    action: PayloadAction<boolean>
+  ): void => {
+    state.isLocationAvailable = action.payload;
+  },
 };

@@ -48,18 +48,18 @@
           opacity: 0.8;
         }
       }
-      .detect_location {
-        position: relative;
-        // @include flex-style(space-between, center);
-        .detect_location_input {
-        }
-        .detect_location_btn {
-          position: absolute;
-          top: 50%;
-          transform: translateY(-50%);
-          right: 2%;
-        }
-      }
+      // .detect_location {
+      //   position: relative;
+      //   // @include flex-style(space-between, center);
+      //   .detect_location_input {
+      //   }
+      //   .detect_location_btn {
+      //     position: absolute;
+      //     top: 50%;
+      //     transform: translateY(-50%);
+      //     right: 2%;
+      //   }
+      // }
 
       .bottom_container {
         .title {

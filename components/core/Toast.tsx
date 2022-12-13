@@ -45,7 +45,7 @@ const AmazeToast = (input: TypeToastInput): any => {
       });
 
     default:
-      return toast.info('welcome to Amaze shop', {
+      return toast.info('welcome to 5AM!', {
         ...defaultkeys,
       });
   }

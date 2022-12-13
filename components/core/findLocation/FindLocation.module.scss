@@ -1,0 +1,18 @@
+@import '../../../styles/variables.scss';
+
+.detectLocation_container {
+  width: 100%;
+  .detect_location {
+    position: relative;
+    // @include flex-style(space-between, center);
+    .detect_location_input {
+    }
+    .detect_location_btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      right: 2%;
+      background-color: white;
+    }
+  }
+}

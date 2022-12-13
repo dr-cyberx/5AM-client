@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
@@ -15,8 +15,22 @@ import {
 } from './authData';
 import { AnyAction, Dispatch } from '@reduxjs/toolkit';
 import { IinitialState } from '@Redux-store/type';
+import { authOperations } from './authService';
+import AmazeToast from '@components/core/Toast';
+import { NextRouter, useRouter } from 'next/router';
+import FindLocation from '@components/core/findLocation/FindLocation';
+import { getLocation } from '@components/Homepage/indexData';
+import useLocalStorage, { iUseLocalStorage } from '@hooks/useLocalstorage';
+import {
+  toggleMagnifiedLoader,
+  toggleIsLocationAvailable,
+} from '@Redux-store/index';
 
 const SignUp: React.FunctionComponent = (): JSX.Element => {
+  const localStorage: iUseLocalStorage = useLocalStorage;
+  const [, setStatus] = useState<string>('');
+  const [, setAddress] = useState<string>('');
+  const router: NextRouter = useRouter();
   const { drawerAuth }: IinitialState = useSelector(
     (state: any) => state.rootState
   );
@@ -24,11 +38,28 @@ const SignUp: React.FunctionComponent = (): JSX.Element => {
   const {
     control,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const handleDetectLocation = () =>
+    getLocation(
+      setStatus,
+      dispatch,
+      toggleMagnifiedLoader,
+      setAddress,
+      toggleIsLocationAvailable,
+      setValue,
+      localStorage
+    );
+
+  const onSubmit = async (data: any) => {
+    try {
+      const signUpResp = await authOperations.signUP({ ...data });
+      router.push('/home');
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -76,6 +107,11 @@ const SignUp: React.FunctionComponent = (): JSX.Element => {
                 </>
               )
             )}
+            <FindLocation
+              control={control}
+              handleDetectLocation={handleDetectLocation}
+              inputName="location"
+            />
             <Button
               btnSize="large"
               type="submit"

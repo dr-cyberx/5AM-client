@@ -7,6 +7,7 @@ const initialState: IinitialState = {
   drawerAuth: DrawerChild.SIGNUP,
   magnifiedLoader: false,
   currentGeoLocation: '',
+  isLocationAvailable: false,
 };
 
 const RootStateSlice: IRootStateSlice = createSlice({
@@ -20,6 +21,7 @@ export const {
   toggleMagnifiedLoader,
   setGeoLocation,
   toggleDrawerInnerContent,
+  toggleIsLocationAvailable,
 } = RootStateSlice.actions;
 
 export default RootStateSlice.reducer;

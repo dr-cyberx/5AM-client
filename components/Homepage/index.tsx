@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import useLocalStorage, { iUseLocalStorage } from '@hooks/useLocalstorage';
 import Layout from '@core/Layout/Layout';
-import Homepage from './Homepage';
 import SetLocationPage from './setLocationPage';
-import { setGeoLocation } from '@Redux-store/index';
-import { useDispatch } from 'react-redux';
+import { setGeoLocation, toggleIsLocationAvailable } from '@Redux-store/index';
+import { useDispatch, useSelector } from 'react-redux';
+import { NextRouter, useRouter } from 'next/router';
 
 const HomepageMain: React.FunctionComponent = (): JSX.Element => {
-  const [isLocationAvailable, setIsLocationAvailable] =
-    useState<boolean>(false);
+  const { isLocationAvailable } = useSelector((state: any) => state.rootState);
   const dispatch = useDispatch();
+  const router: NextRouter = useRouter();
 
   useEffect(() => {
     const localStorage: iUseLocalStorage = useLocalStorage;
@@ -17,28 +17,33 @@ const HomepageMain: React.FunctionComponent = (): JSX.Element => {
     const detectedMinifiedCity =
       localStorage.getItem('current_minified_Address') || {};
     if (Object.keys(detectedCity).length === 0) {
-      setIsLocationAvailable(false);
+      dispatch(toggleIsLocationAvailable(false));
     } else {
-      setIsLocationAvailable(true);
+      dispatch(toggleIsLocationAvailable(true));
     }
     if (detectedMinifiedCity.length !== 0) {
       dispatch(setGeoLocation(detectedMinifiedCity));
     }
+    if (isLocationAvailable) {
+      toggleLocationAvailable(true);
+      router.push('/home');
+    }
   }, [isLocationAvailable]);
 
-  const toggleIsLocationAvailable = (isAvailable: boolean): void =>
-    setIsLocationAvailable(isAvailable);
+  const toggleLocationAvailable = (isAvailable: boolean): void => {
+    dispatch(toggleIsLocationAvailable(isAvailable));
+  };
 
   return (
-    <Layout isNav={isLocationAvailable}>
-      {isLocationAvailable ? (
-        <Homepage />
-      ) : (
-        <SetLocationPage
-          toggleIsLocationAvailable={toggleIsLocationAvailable}
-        />
-      )}
-    </Layout>
+    <>
+      <Layout>
+        {!isLocationAvailable && (
+          <SetLocationPage
+            toggleIsLocationAvailable={toggleLocationAvailable}
+          />
+        )}
+      </Layout>
+    </>
   );
 };
 

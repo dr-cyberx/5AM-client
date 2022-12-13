@@ -14,6 +14,7 @@ export type IinitialState = {
   magnifiedLoader: boolean;
   currentGeoLocation: string;
   drawerAuth: DrawerChild;
+  isLocationAvailable: boolean;
 };
 
 export type iActions = {
@@ -27,6 +28,10 @@ export type iActions = {
     action: PayloadAction<DrawerChild>
   ) => void;
   toggleSideDrawer: (
+    state: IinitialState,
+    action: PayloadAction<boolean>
+  ) => void;
+  toggleIsLocationAvailable: (
     state: IinitialState,
     action: PayloadAction<boolean>
   ) => void;

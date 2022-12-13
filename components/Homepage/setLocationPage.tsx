@@ -18,6 +18,7 @@ import { Anchor, toggleMuiDrawer } from '@components/core/Drawer/Drawer';
 import { DrawerChild } from '@Redux-store/type';
 import { useForm } from 'react-hook-form';
 import { getLocation } from './indexData';
+import FindLocation from '@components/core/findLocation/FindLocation';
 
 interface IauthBtns {
   label: string;
@@ -115,28 +116,11 @@ const SetLocationPage: React.FunctionComponent<iSetLocationPage> = ({
               Order food from favourite restaurants near you.
             </h4>
           </div>
-          <div className={styles.detectLocation_container}>
-            <div className={styles.detect_location}>
-              <div className={styles.detect_location_input}>
-                <Input
-                  name="location"
-                  rules={{ required: true }}
-                  control={control}
-                  inputSize={iInputSize.MEDIUM}
-                  style={{ fontSize: '1.5rem' }}
-                />
-              </div>
-              <div className={styles.detect_location_btn}>
-                <Button
-                  label={'Detect Me'}
-                  btnSize={'medium'}
-                  onClick={handleDetectLocation}
-                  variant={'text'}
-                  startIcon={<MyLocationIcon />}
-                />
-              </div>
-            </div>
-          </div>
+          <FindLocation
+            control={control}
+            handleDetectLocation={handleDetectLocation}
+            inputName="location"
+          />
           <div className={styles.bottom_container}>
             <div className={styles.title}>
               <p style={{ marginBottom: '0px' }}>POPULAR CITIES IN INDIA</p>

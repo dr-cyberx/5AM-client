@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import axios from 'axios';
 
 interface IDataObject {
@@ -9,7 +10,7 @@ interface IDataObject {
 }
 
 const useApiService = () => {
-  let API_BASE_URL = process.env.REACT_APP_API_URL;
+  let API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
   // let API_BASE_URL = 'https://api.diggrowth.com/';
   const axiosInstance = axios.create();
   //   const access_token = userData?.access_token;
@@ -91,4 +92,6 @@ const useApiService = () => {
   };
 };
 
+const APIServices = useApiService();
+export { APIServices };
 export default useApiService;

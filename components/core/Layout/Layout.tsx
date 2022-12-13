@@ -12,16 +12,16 @@ import TemporaryDrawer from '../Drawer/Drawer';
 
 interface iLayout {
   children: React.ReactNode;
-  isNav: boolean;
 }
 
 const Layout: React.FunctionComponent<iLayout> = ({
   children,
-  isNav,
 }): JSX.Element => {
-  const { magnifiedLoader, drawerAuth } = useSelector(
-    (state: any) => state.rootState
-  );
+  const {
+    magnifiedLoader,
+    drawerAuth,
+    isLocationAvailable: isNav,
+  } = useSelector((state: any) => state.rootState);
 
   const showAuthScreen = (): React.ReactNode => {
     switch (drawerAuth) {
