@@ -8,6 +8,7 @@ const initialState: IinitialState = {
   magnifiedLoader: false,
   currentGeoLocation: '',
   isLocationAvailable: false,
+  globalLoader: false,
 };
 
 const RootStateSlice: IRootStateSlice = createSlice({
@@ -22,6 +23,7 @@ export const {
   setGeoLocation,
   toggleDrawerInnerContent,
   toggleIsLocationAvailable,
+  toggleGlobalLoader,
 } = RootStateSlice.actions;
 
 export default RootStateSlice.reducer;

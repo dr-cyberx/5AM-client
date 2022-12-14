@@ -6,9 +6,9 @@ import Login from '@components/auth/Login';
 import SignUp from '@components/auth/SignUp';
 import Navbar from '../Navbar/Navbar';
 import styles from './Layout.module.scss';
-import MagnifyLoader from '../loaders/MagnifyLoader';
 import { colors } from '../variable';
 import TemporaryDrawer from '../Drawer/Drawer';
+import { MagnifyLoader, GlobalLoader } from '../loaders';
 
 interface iLayout {
   children: React.ReactNode;
@@ -19,6 +19,7 @@ const Layout: React.FunctionComponent<iLayout> = ({
 }): JSX.Element => {
   const {
     magnifiedLoader,
+    globalLoader,
     drawerAuth,
     isLocationAvailable: isNav,
   } = useSelector((state: any) => state.rootState);
@@ -47,6 +48,7 @@ const Layout: React.FunctionComponent<iLayout> = ({
           color={colors.primary}
           glassColor="#ffffff6a"
         />
+        <GlobalLoader visible={globalLoader} color={colors.primary} />
       </div>
     </>
   );

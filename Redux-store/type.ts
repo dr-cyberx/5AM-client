@@ -15,10 +15,15 @@ export type IinitialState = {
   currentGeoLocation: string;
   drawerAuth: DrawerChild;
   isLocationAvailable: boolean;
+  globalLoader: boolean;
 };
 
 export type iActions = {
   toggleMagnifiedLoader: (
+    state: IinitialState,
+    action: PayloadAction<boolean>
+  ) => void;
+  toggleGlobalLoader: (
     state: IinitialState,
     action: PayloadAction<boolean>
   ) => void;

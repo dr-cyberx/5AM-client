@@ -20,6 +20,9 @@ $login-signup-drawer-padding: 30px;
   .formBody {
     width: 80%;
     margin-top: 50px;
+    .helperText1 {
+      margin-top: 15px;
+    }
     .title {
       margin-bottom: 5px;
     }
@@ -45,7 +48,19 @@ $login-signup-drawer-padding: 30px;
       height: 150px;
     }
     .signUpForm {
-      height: 350px;
+      height: auto;
+      .signUp_inputs {
+        width: 100%;
+        position: relative;
+        margin-bottom: 15px;
+        .error_icon {
+          cursor: pointer;
+          position: absolute;
+          right: -10%;
+          top: 20%;
+          color: $color-danger;
+        }
+      }
     }
   }
 }

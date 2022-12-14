@@ -8,6 +8,12 @@ export const reducers: iActions = {
   ): void => {
     state.magnifiedLoader = action.payload;
   },
+  toggleGlobalLoader: (
+    state: IinitialState,
+    action: PayloadAction<boolean>
+  ): void => {
+    state.globalLoader = action.payload;
+  },
   setGeoLocation(state: IinitialState, action: PayloadAction<string>) {
     state.currentGeoLocation = action.payload;
   },

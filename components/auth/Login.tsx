@@ -1,8 +1,5 @@
 import React from 'react';
-import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import styles from './auth.module.scss';
 import { useForm } from 'react-hook-form';
 import Input, { iInputSize } from '@components/core/Input/Input';
 import Button from '@components/core/Button/Button';
@@ -11,6 +8,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { IinitialState } from '@Redux-store/type';
 import { AnyAction, Dispatch } from '@reduxjs/toolkit';
 import { toogleAuthComponent } from './authData';
+import { arrowForwardIcon, closeIcon } from '@components/Icons';
+import styles from './auth.module.scss';
 
 const Login: React.FunctionComponent = (): JSX.Element => {
   const { drawerAuth }: IinitialState = useSelector(
@@ -35,7 +34,7 @@ const Login: React.FunctionComponent = (): JSX.Element => {
             className={styles.close_drawer_icon}
             onClick={() => toggleMuiDrawer(false, dispatch)}
           >
-            <CloseIcon fontSize="medium" />
+            {closeIcon()}
           </span>
         </div>
 
@@ -72,7 +71,7 @@ const Login: React.FunctionComponent = (): JSX.Element => {
               type="submit"
               label="Login"
               style={{ width: '100%' }}
-              endIcon={<ArrowForwardIcon />}
+              endIcon={arrowForwardIcon()}
             />
           </form>
           <Typography

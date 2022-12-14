@@ -59,7 +59,7 @@ const Input: React.FunctionComponent<Iinput> = forwardRef(
   ({ label, name, type, inputSize, rules, control, style }): JSX.Element => {
     const {
       field: { onChange, value },
-      fieldState,
+      formState: { errors },
     } = useController({
       name,
       control,
@@ -123,6 +123,7 @@ const Input: React.FunctionComponent<Iinput> = forwardRef(
               style={style}
               value={value}
               onChange={onChange}
+              InputLabelProps={{ shrink: value }}
               name={name}
               type={type}
             />

@@ -8,16 +8,16 @@ export const authEndPoints = {
       headers: data.headers,
     };
   },
-  sendOTP: (data: iSendOTP) => {
+  sendOTP: (data: any) => {
     return {
-      url: '',
+      url: 'auth/sendOtp',
       data: data.reqBody,
       headers: data.headers,
     };
   },
-  verifyOTP: (data: iVerifyOTP) => {
+  verifyOTP: (data: any) => {
     return {
-      url: '',
+      url: 'auth/verifyOtp',
       data: data.reqBody,
       headers: data.headers,
     };
@@ -25,8 +25,36 @@ export const authEndPoints = {
 };
 
 export const authOperations = {
-  // sendOTP: async (request: any) => {},
-  // verifyOTP: () => {},
+  sendOTP: async (req: { phoneNumber: string }) => {
+    try {
+      const request = {
+        headers: {},
+        reqBody: {
+          phoneNumber: req.phoneNumber,
+        },
+      };
+      const signUpRes = await APIServices.post(authEndPoints.sendOTP(request));
+      console.log('signUpRes >>> ', signUpRes);
+      return signUpRes?.data?.data || {};
+    } catch (err: any) {
+      throw new Error(err);
+    }
+  },
+  verifyOTP: async (req: any) => {
+    try {
+      const request = {
+        headers: {},
+        reqBody: {
+          phoneNumber: req.phoneNumber,
+          otp: req.signUp_otp,
+        },
+      };
+      const verifyOTP = await APIServices.post(
+        authEndPoints.verifyOTP(request)
+      );
+      console.log('verifyOTP >>>', verifyOTP.data);
+    } catch (err) {}
+  },
   signUP: async (req: any) => {
     try {
       const request = {

@@ -47,7 +47,9 @@ const Btn: React.FunctionComponent<IBtn> = ({
           onClick={onClick}
           color={color}
           style={
-            btnSize === 'large' ? { height: '56px', ...style } : { ...style }
+            btnSize === 'large'
+              ? { height: '56px', borderRadius: '0px', ...style }
+              : { ...style }
           }
           startIcon={startIcon}
           endIcon={endIcon}

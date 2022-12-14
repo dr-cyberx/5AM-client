@@ -1,7 +1,5 @@
-import React, { useState } from 'react';
-import CloseIcon from '@mui/icons-material/Close';
+import React, { useEffect, useState } from 'react';
 import Typography from '@mui/material/Typography';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import styles from './auth.module.scss';
 import { useForm } from 'react-hook-form';
 import Input from '@components/core/Input/Input';
@@ -10,6 +8,7 @@ import { toggleMuiDrawer } from '@components/core/Drawer/Drawer';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   InputArgAssigner,
+  showInvalidInputAlert,
   signUpInputData,
   toogleAuthComponent,
 } from './authData';
@@ -24,12 +23,16 @@ import useLocalStorage, { iUseLocalStorage } from '@hooks/useLocalstorage';
 import {
   toggleMagnifiedLoader,
   toggleIsLocationAvailable,
+  toggleGlobalLoader,
 } from '@Redux-store/index';
+import { IconButton, Tooltip } from '@mui/material';
+import { arrowForwardIcon, closeIcon, warningIcon } from '@components/Icons';
 
 const SignUp: React.FunctionComponent = (): JSX.Element => {
   const localStorage: iUseLocalStorage = useLocalStorage;
   const [, setStatus] = useState<string>('');
   const [, setAddress] = useState<string>('');
+  const [appendOtpField, setAppendOtpField] = useState<boolean>(false);
   const router: NextRouter = useRouter();
   const { drawerAuth }: IinitialState = useSelector(
     (state: any) => state.rootState
@@ -40,6 +43,7 @@ const SignUp: React.FunctionComponent = (): JSX.Element => {
     handleSubmit,
     setValue,
     formState: { errors },
+    clearErrors,
   } = useForm();
 
   const handleDetectLocation = () =>
@@ -50,14 +54,26 @@ const SignUp: React.FunctionComponent = (): JSX.Element => {
       setAddress,
       toggleIsLocationAvailable,
       setValue,
-      localStorage
+      localStorage,
+      clearErrors
     );
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: any): Promise<void> => {
+    dispatch(toggleGlobalLoader(true));
     try {
       const signUpResp = await authOperations.signUP({ ...data });
-      router.push('/home');
+      if (!signUpResp.error) {
+        // const sendOTP = await authOperations.verifyOTP({
+        //   phoneNumber: data.login_phone_number,
+        //   otp: data.signUp_otp,
+        // });
+        setAppendOtpField(true);
+      }
+      dispatch(toggleGlobalLoader(false));
+      // toggleMuiDrawer(false, dispatch);
+      // router.push('/home');
     } catch (err) {
+      dispatch(toggleGlobalLoader(false));
       console.log(err);
     }
   };
@@ -70,7 +86,7 @@ const SignUp: React.FunctionComponent = (): JSX.Element => {
             className={styles.close_drawer_icon}
             onClick={() => toggleMuiDrawer(false, dispatch)}
           >
-            <CloseIcon fontSize="medium" />
+            {closeIcon()}
           </span>
         </div>
 
@@ -100,24 +116,77 @@ const SignUp: React.FunctionComponent = (): JSX.Element => {
             {signUpInputData.map(
               (item: typeof signUpInputData[1]): React.ReactNode => (
                 <>
-                  <Input
-                    control={control}
-                    {...InputArgAssigner(item.label, item.type, item.name)}
-                  />
+                  <div className={styles['signUp_inputs']}>
+                    {item.name === 'login_phone_number' ? (
+                      <Input
+                        control={control}
+                        {...InputArgAssigner(
+                          item.label,
+                          item.type,
+                          item.name,
+                          item.rule
+                        )}
+                      />
+                    ) : (
+                      <Input
+                        control={control}
+                        {...InputArgAssigner(item.label, item.type, item.name)}
+                      />
+                    )}
+                    {errors[item.name] ? (
+                      <Tooltip title={`${item.label} is required!`}>
+                        <div className={styles['error_icon']}>
+                          {warningIcon()}
+                        </div>
+                      </Tooltip>
+                    ) : (
+                      <></>
+                    )}
+                  </div>
                 </>
               )
             )}
-            <FindLocation
-              control={control}
-              handleDetectLocation={handleDetectLocation}
-              inputName="location"
-            />
+            <div className={styles['signUp_inputs']}>
+              <FindLocation
+                control={control}
+                handleDetectLocation={handleDetectLocation}
+                inputName="location"
+              />
+              {errors['location'] ? (
+                <Tooltip title={`location is required!`}>
+                  <div className={styles['error_icon']}>{warningIcon()}</div>
+                </Tooltip>
+              ) : (
+                <></>
+              )}
+            </div>
+            {appendOtpField ? (
+              <div className={styles['signUp_inputs']}>
+                <Input
+                  control={control}
+                  {...InputArgAssigner('Enter OTP', 'number', 'signUp_otp', {
+                    minLength: 4,
+                    maxLength: 5,
+                  })}
+                />
+                {errors['signUp_otp'] ? (
+                  <Tooltip title={`OTP is required!`}>
+                    <div className={styles['error_icon']}>{warningIcon()}</div>
+                  </Tooltip>
+                ) : (
+                  <></>
+                )}
+              </div>
+            ) : (
+              <></>
+            )}
+
             <Button
               btnSize="large"
               type="submit"
-              label="SIGN UP"
+              label={appendOtpField ? 'SIGN UP' : 'SEND OTP'}
               style={{ width: '100%' }}
-              endIcon={<ArrowForwardIcon />}
+              endIcon={arrowForwardIcon()}
             />
           </form>
           <Typography
