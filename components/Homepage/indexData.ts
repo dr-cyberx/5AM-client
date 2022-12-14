@@ -7,7 +7,11 @@ import {
   Dispatch,
 } from '@reduxjs/toolkit';
 import axios, { AxiosResponse } from 'axios';
-import { FieldValues, UseFormSetValue } from 'react-hook-form';
+import {
+  FieldValues,
+  UseFormClearErrors,
+  UseFormSetValue,
+} from 'react-hook-form';
 
 export const getLocation = (
   setStatus: React.Dispatch<React.SetStateAction<string>>,
@@ -19,7 +23,8 @@ export const getLocation = (
   setAddress: React.Dispatch<React.SetStateAction<string>>,
   toggleIsLocationAvailable: (arg: boolean) => void,
   setValue: UseFormSetValue<FieldValues>,
-  localStorage: iUseLocalStorage
+  localStorage: iUseLocalStorage,
+  clearErrors?: UseFormClearErrors<FieldValues>
 ): void => {
   if (!navigator.geolocation) {
     setStatus('Geolocation is not supported by your browser');
@@ -49,6 +54,9 @@ export const getLocation = (
               .slice(0, 4)
               .join(',');
             setAddress(minifiedAddress);
+            if (clearErrors) {
+              clearErrors('location');
+            }
             setValue('location', minifiedAddress);
             dispatch(toggleMagnifiedLoader(false));
             toggleIsLocationAvailable(true);

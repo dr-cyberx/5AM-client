@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
+import WarningIcon from '@mui/icons-material/Warning';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import styles from './auth.module.scss';
 import { useForm } from 'react-hook-form';
@@ -10,6 +11,7 @@ import { toggleMuiDrawer } from '@components/core/Drawer/Drawer';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   InputArgAssigner,
+  showInvalidInputAlert,
   signUpInputData,
   toogleAuthComponent,
 } from './authData';
@@ -25,11 +27,12 @@ import {
   toggleMagnifiedLoader,
   toggleIsLocationAvailable,
 } from '@Redux-store/index';
+import { IconButton, Tooltip } from '@mui/material';
 
 const SignUp: React.FunctionComponent = (): JSX.Element => {
   const localStorage: iUseLocalStorage = useLocalStorage;
   const [, setStatus] = useState<string>('');
-  const [, setAddress] = useState<string>('');
+  const [address, setAddress] = useState<string>('');
   const router: NextRouter = useRouter();
   const { drawerAuth }: IinitialState = useSelector(
     (state: any) => state.rootState
@@ -40,6 +43,7 @@ const SignUp: React.FunctionComponent = (): JSX.Element => {
     handleSubmit,
     setValue,
     formState: { errors },
+    clearErrors,
   } = useForm();
 
   const handleDetectLocation = () =>
@@ -50,16 +54,18 @@ const SignUp: React.FunctionComponent = (): JSX.Element => {
       setAddress,
       toggleIsLocationAvailable,
       setValue,
-      localStorage
+      localStorage,
+      clearErrors
     );
 
   const onSubmit = async (data: any) => {
-    try {
-      const signUpResp = await authOperations.signUP({ ...data });
-      router.push('/home');
-    } catch (err) {
-      console.log(err);
-    }
+    // try {
+    //   const signUpResp = await authOperations.signUP({ ...data });
+    //   toggleMuiDrawer(false, dispatch);
+    //   router.push('/home');
+    // } catch (err) {
+    //   console.log(err);
+    // }
   };
 
   return (
@@ -100,18 +106,52 @@ const SignUp: React.FunctionComponent = (): JSX.Element => {
             {signUpInputData.map(
               (item: typeof signUpInputData[1]): React.ReactNode => (
                 <>
-                  <Input
-                    control={control}
-                    {...InputArgAssigner(item.label, item.type, item.name)}
-                  />
+                  <div className={styles['signUp_inputs']}>
+                    {item.name === 'login_phone_number' ? (
+                      <Input
+                        control={control}
+                        {...InputArgAssigner(
+                          item.label,
+                          item.type,
+                          item.name,
+                          item.rule
+                        )}
+                      />
+                    ) : (
+                      <Input
+                        control={control}
+                        {...InputArgAssigner(item.label, item.type, item.name)}
+                      />
+                    )}
+                    {errors[item.name] ? (
+                      <Tooltip title={`${item.label} is required!`}>
+                        <div className={styles['error_icon']}>
+                          <WarningIcon />
+                        </div>
+                      </Tooltip>
+                    ) : (
+                      <></>
+                    )}
+                  </div>
                 </>
               )
             )}
-            <FindLocation
-              control={control}
-              handleDetectLocation={handleDetectLocation}
-              inputName="location"
-            />
+            <div className={styles['signUp_inputs']}>
+              <FindLocation
+                control={control}
+                handleDetectLocation={handleDetectLocation}
+                inputName="location"
+              />
+              {errors['location'] ? (
+                <Tooltip title={`location is required!`}>
+                  <div className={styles['error_icon']}>
+                    <WarningIcon />
+                  </div>
+                </Tooltip>
+              ) : (
+                <></>
+              )}
+            </div>
             <Button
               btnSize="large"
               type="submit"

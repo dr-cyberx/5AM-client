@@ -46,6 +46,17 @@ $login-signup-drawer-padding: 30px;
     }
     .signUpForm {
       height: 350px;
+      .signUp_inputs {
+        width: 100%;
+        position: relative;
+        .error_icon {
+          cursor: pointer;
+          position: absolute;
+          right: -10%;
+          top: 20%;
+          color: $color-danger;
+        }
+      }
     }
   }
 }
