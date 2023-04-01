@@ -1,9 +1,10 @@
-import Homepage from '../components/Homepage';
+import React from 'react';
+import DefaultPage from '@components/DefaultPage/Index';
 
-export default function Home(): JSX.Element {
+export default function Index(): JSX.Element {
   return (
     <>
-      <Homepage />
+      <DefaultPage />
     </>
   );
 }
